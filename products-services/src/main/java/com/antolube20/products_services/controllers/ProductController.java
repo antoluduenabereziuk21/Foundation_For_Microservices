@@ -5,6 +5,7 @@ import com.antolube20.products_services.model.dtos.ProductResponse;
 import com.antolube20.products_services.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,14 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void addProduct(@RequestBody ProductRequest productRequest) {
         this.productService.addProduct(productRequest);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<ProductResponse> getAllProducts() {
         return this.productService.getAllProducts();
     }
